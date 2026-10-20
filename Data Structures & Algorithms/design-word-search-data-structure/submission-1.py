@@ -1,0 +1,63 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+
+        self.end_of_word = False
+
+class WordDictionary:
+
+    def __init__(self):
+        
+        self.root = TrieNode() # need a slight review on these method
+
+    def addWord(self, word: str) -> None:
+        cur = self.root
+
+        for i in word:
+
+            if i not in cur.children:
+                cur.children[i] = TrieNode()
+
+            cur = cur.children[i]
+
+        
+
+        cur.end_of_word = True
+
+        
+
+    def search(self, word: str) -> bool:
+
+      # dfs for every possbile pasth due to the "." being any letter so muitple paths need checking instead of singular
+
+
+      def dfs(j, root):
+        cur = root
+
+        for i in range(j, len(word)):
+            c = word[i]
+            if c==".":
+                for child in cur.children.values():
+                    if dfs(i+1, child):
+                        return True
+
+                return False
+
+            
+            
+
+            else:
+                if c not in cur.children:
+                    return False
+
+                cur = cur.children[c]
+
+                
+
+        return cur.end_of_word
+
+
+      return dfs(0,self.root)
+
+
+        
